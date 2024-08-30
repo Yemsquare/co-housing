@@ -9,7 +9,7 @@ export default function Footer({ ...props}) {
             <div className="mx-auto flex w-full max-w-[125px] flex-col items-start gap-[90px] md:gap-[67px] sm:gap-[45px]">
                 <div className="h-[2px] w-full self-stretch bg-deep_orange-600">
                     <div className="flex w-[92%] flex-col items-start gap-20 md:w-full md:gap-[60px] sm:gap-10">
-                        <Heading size="heading5x1" 
+                        <Heading size="heading5xl" 
                         as="h1" 
                         className="w-[20%] text-center capitalize leading-[59px] !text-block-900 md:w-full">
                             <>
