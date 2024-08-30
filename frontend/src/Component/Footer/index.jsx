@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Img, Header } from "./..";
+import { Text, Img, Heading } from "./..";
 
 export default function Footer({ ...props}) {
     return (
@@ -107,5 +107,5 @@ export default function Footer({ ...props}) {
 
         </footer>
     );
-    
+
 }
