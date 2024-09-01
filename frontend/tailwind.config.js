@@ -1,8 +1,6 @@
-const { plugins } = require("./postcss.config");
-
 module.exports = {
     mode: "jit",
-    content: ["./src/**/**/*.{js,ts,jsx,tsx,html,mdx}"],
+    content: ["./src/**/**/*.{js,ts,jsx,tsx,html,mdx}", "./src/**/*.{js,ts,jsx,tsx,html,mdx}"],
     darkMode: "class",
     theme: {
         screens : {md: {max: "1050px"}, sm: {max: "550px"}},
@@ -10,7 +8,7 @@ module.exports = {
             colors: {
                 black: {
                 900: "#000000",
-                "900_000000": "#000000",
+                "900_00": "#000000",
                 "900_19":"#00000019",
                 "900_22":"#00000022",
                 "900_26":"#00000026",
