@@ -17,33 +17,36 @@ const sizes = {
     xs: "h-[50px] px-5 text-[14px]",
 };
 
-const Input = React.forwardRef({
-    className = "",
-    name = "",
-    type = "text",
-    label,
-    onChange,
-    placeholder,
-    prefix,
-    suffix,
-    shape = "round",
-    variant = "fill",
-    size = "xs",
-    color = "gray_50",
-   ...restProps
-},
-ref,
-) => { 
-    return ( 
-        <label className={`${className} flex items-center justify-center cursor-text border border-solid ${shape && shapes[shape]} $ {variant && (variants[variant]?.[color] || varinats[variant])} ${size && sizes[size]}`}>
-            {!!label && label}
-            {!!prefix && prefix}
-            <input ref={ref} type={type} name={name} placeholder={placeholder} onChange={onChange} {...restProps} />
-            {!!suffix && suffix}
-        </label>
-    );
-};
+    const Input = React.forwardRef(
+        (
+            {
+                className = "",
+                name = "",
+                type = "text",
+                label = "",
+                onChange,
+                placeholder = "",
+                prefix,
+                suffix,
+                shape,
+                variant = "fill",
+                size = "xs",
+                color = "gray_50",
+               ...restProps
+            },
+            ref,
+        ) => {
+            return (
+                <label className={`${className} flex items-center justify-center cursor-text border border-solid ${shape && shapes[shape]} ${variant && (variants[variant]?.[color] || variants[variant])} ${size && sizes[size]}`}>
+                    {!!label && label}
+                    {!!prefix && prefix}
+                    <input ref={ref} type={type} name={name} placeholder={placeholder} onChange={onchange} {...restProps}/>
+                    {!!suffix && suffix}
+                </label>
+            );
+        },
 
+    );
 
 Input.propTypes = {
     className: PropTypes.string,
