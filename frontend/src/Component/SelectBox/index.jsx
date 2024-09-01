@@ -38,7 +38,7 @@ ref,
         <Select
         ref={ref}
         options={options}
-        className={`${className} flex ${shape && shapes[shape]} ${size && sizes[size]} &{variants && variants[variant]?.[color]}`}
+        className={`${className} flex ${shape && shapes[shape]} ${size && sizes[size]} ${variant && variants[variant]?.[color]}`}
         isSearchable={isSearchable}
         isMulti={isMulti}
         components={{
