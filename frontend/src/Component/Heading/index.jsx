@@ -18,14 +18,14 @@ const sizes = {
     heading6xl: "text-[55px] font-bold md:text-[47px] sm:text-[41px]",
 };
 
-const Heading = ({ children, classNamr = "", size = "headingxs", as, ...restProps}) => {
+const Heading = ({ children, className = "", size = "headingxs", as, ...restProps}) => {
     const Component = as || "h6";
 
     return (
-        <Component className={`text-text_color font-poppins ${sizes[size]} ${className}`} {...restProps}>
+        <Component className={`text-text_color font-poppins ${className} ${sizes[size]} `} {...restProps}>
             {children}
         </Component>
     );
 };
 
-export { Heading };
+export { Heading};
