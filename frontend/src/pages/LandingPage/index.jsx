@@ -3,6 +3,8 @@ import {Helmet} from "react-helmet";
 import Footer from "../../Component/Footer";
 import Header from "../../Component/Header";
 import FlexibleLeasesSection from "./FlexibleLeasesSection";
+import LandingPageMainSection from "./LandingPageMainSection";
+import LandingPageMainSection1 from "./LandingPageMainSection1";
 
 export default function LandingPagePage(){
     return (
@@ -19,9 +21,12 @@ export default function LandingPagePage(){
                     <Header />
 
                     {/* landing page main section  */}
+                    <LandingPageMainSection />
                 </div>
 
             </div>
+
+                <LandingPageMainSection1 />
             
                 <FlexibleLeasesSection />
             

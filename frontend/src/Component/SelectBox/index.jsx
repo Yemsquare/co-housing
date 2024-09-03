@@ -24,7 +24,7 @@ const SelectBox = React.forwardRef(({
     options = [],
     isSearchable = false,
     isMulti = false,
-    indcator,
+    indicator,
     shape,
     variant = "fill",
     size = "xs",
@@ -43,7 +43,7 @@ ref,
         isMulti={isMulti}
         components={{
             IndicatorSeparator: () => null,
-            ...PropTypes(indicator && { DropdownIndicator: () => indicator }),
+            ...(indicator && { DropdownIndicator: () => indicator }),
         }}
         styles={{
             indicatorsContainer: (provided) => ({

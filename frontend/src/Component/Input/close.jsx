@@ -1,6 +1,6 @@
 import React from "react";
 
-const ClassSVG = ({ fillcolor = "#000000", className = "", ...props }) => {
+const CloseSVG = ({ fillcolor = "#000000", className = "", ...props }) => {
     return (
         <svg 
         fill={fillcolor}

@@ -9,7 +9,7 @@ const dropDownOptions = [
 ];
 
 export default function LandingPageMainSection(){
-    const [searchBarValeu, setSearchBarValue] = React.useState("");
+    const [searchBarValue, setSearchBarValue] = React.useState("");
 
     return (
         <>
