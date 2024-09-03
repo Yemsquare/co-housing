@@ -1,7 +1,7 @@
 @font-face {
     font-family: swap;
     font-style: normal;
-    src: url("frontend/public/fonts/DMSans-Medium.ttf");
+    src: url('../../public/fonts/DMSans-Bold.ttf') format('truetype');
     font-family: "DM Sans";
     font-weight: 500;
 }
@@ -10,94 +10,94 @@
     font-display: swap;
     font-style: normal;
     font-weight: 400;
-    src: url("frontend/public/fonts/DMSans-Regular.ttf");
+    src: url('../../public/fonts/DMSans-Regular.ttf');
 }
 @font-face {
     font-family: "Inter";
-    src: url("frontend/public/fonts/Inter_18pt-Bold.ttf");
+    src: url('../../public/fonts/Inter_18pt-Bold.ttf') format('truetype');
     font-style: normal;
     font-display: swap;
     font-weight: 700;
 }
 @font-face {
     font-family: "Inter";
-    src: url("frontend/public/fonts/Inter_18pt-Regular.ttf");
+    src: url('../../public/fonts/Inter_18pt-Regular.ttf');
     font-style: normal;
     font-display: swap;
     font-weight: 400;
 }
 @font-face {
     font-family: "Open Sans";
-    src: url("frontend/public/fonts/OpenSans-Regular.ttf");
+    src: url('../../public/fonts/OpenSans-Regular.ttf');
     font-style: normal;
     font-display: swap;
     font-weight: 400;
 }
 @font-face {
     font-family: "Open Sans";
-    src: url("frontend/public/fonts/OpenSans-Bold.ttf");
+    src: url('../../public/fonts/OpenSans-Bold.ttf');
     font-style: normal;
     font-display: swap;
     font-weight: 700;
 }
 @font-face {
     font-family: "Inter";
-    src: url("frontend/public/fonts/Inter_18pt-Bold.ttf");
+    src: url("../../public/fonts/Inter_18pt-Bold.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 800;
 }
 @font-face {
     font-family: "Inter";
-    src: url("frontend/public/fonts/Inter_18pt-Medium.ttf");
+    src: url("../../public/fonts/Inter_18pt-Medium.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 500;
 }
 @font-face {
     font-family: "Manrope";
-    src: url("frontend/public/fonts/Manrope-Medium.ttf");
+    src: url("../../public/fonts/Manrope-Medium.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 500;
 }
 @font-face {
     font-family: "DM Sans";
-    src: url("frontend/public/fonts/DMSans-Bold.ttf");
+    src: url("../../public/fonts/DMSans-Bold.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 700;
 }@font-face {
     font-family: "Monsterrat";
-    src: url("frontend/public/fonts/Montserrat-Bold.ttf");
+    src: url("../../public/fonts/Montserrat-Bold.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 700;
 }
 @font-face {
     font-family: "Poppins";
-    src: url("frontend/public/fonts/Poppins-Bold.ttf");
+    src: url("../../public/fonts/Poppins-Bold.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 700;
 }
 @font-face {
     font-family: "Poppins";
-    src: url("frontend/public/fonts/Poppins-SemiBold.ttf");
+    src: url("../../public/fonts/Poppins-SemiBold.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 600;
 }
 @font-face {
     font-family: "Poppins";
-    src: url("frontend/public/fonts/Poppins-Medium.ttf");
+    src: url("../../public/fonts/Poppins-Medium.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 500;
 }
 @font-face {
     font-family: "Poppins";
-    src: url("frontend/public/fonts/Poppins-Regular.ttf");
+    src: url("../../public/fonts/Poppins-Regular.ttf");
     font-style: normal;
     font-display: swap;
     font-weight: 400;
