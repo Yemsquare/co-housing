@@ -5,6 +5,7 @@ import Header from "../../Component/Header";
 import FlexibleLeasesSection from "./FlexibleLeasesSection";
 import LandingPageMainSection from "./LandingPageMainSection";
 import LandingPageMainSection1 from "./LandingPageMainSection1";
+import LandingPageMainSection2 from "./LandingPageMainSection2";
 
 export default function LandingPagePage(){
     return (
@@ -27,6 +28,8 @@ export default function LandingPagePage(){
             </div>
 
                 <LandingPageMainSection1 />
+
+                <LandingPageMainSection2 />
             
                 <FlexibleLeasesSection />
             
