@@ -6,6 +6,7 @@ import FlexibleLeasesSection from "./FlexibleLeasesSection";
 import LandingPageMainSection from "./LandingPageMainSection";
 import LandingPageMainSection1 from "./LandingPageMainSection1";
 import LandingPageMainSection2 from "./LandingPageMainSection2";
+import PropertyFormSection from "./PropertyFormSection";
 
 export default function LandingPagePage(){
     return (
@@ -30,6 +31,8 @@ export default function LandingPagePage(){
                 <LandingPageMainSection1 />
 
                 <LandingPageMainSection2 />
+
+                <PropertyFormSection />
             
                 <FlexibleLeasesSection />
             

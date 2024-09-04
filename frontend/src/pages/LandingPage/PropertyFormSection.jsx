@@ -150,7 +150,7 @@ export default function PropertyFormSection() {
                         </div>
                         <div className="mt-1 flex flex-col items-center gap-1.5 self-stretch rounded-[10px] border border-dashed border-deep_orange-600 p-[26px] sm:p-5">
                             <Heading size="textmd" as="p" className="!text-black-900">
-                                <span className="text-text_color">DRag your images here, or&nbsp;</span>
+                                <span className="text-text_color">Drag your images here, or&nbsp;</span>
                                 <span className="text-deep_orange-600">browse</span>
                             </Heading>
                             <Heading size="textxs" as="p" className="!text-black-900_7f">
