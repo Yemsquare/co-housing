@@ -5,11 +5,11 @@ import React from "react";
 export default function Footer({ ...props}) {
     return (
         <footer {...props}
-        className={`${props.className} flex justify-center items-center px-14 py-[100px] md:p-5 bg-light_background_color`}
+        className={`${props.className} flex justify px-14 py-[100px] md:p-5 bg-light_background_color`}
         >
-            <div className="mx-auto flex w-full max-w-[125px] flex-col items-start gap-[90px] md:gap-[67px] sm:gap-[45px]">
+            <div className="mx-auto flex w-full flex-col items-start gap-[90px] md:gap-[67px] sm:gap-[45px]">
                 <div className="h-[2px] w-full self-stretch bg-deep_orange-600">
-                    <div className="flex w-[92%] flex-col items-start gap-20 md:w-full md:gap-[60px] sm:gap-10">
+                    <div className="flex w-[60%] flex-col items-start gap-20 md:w-full md:gap-[60px] sm:gap-10">
                         <Heading size="heading5xl" 
                         as="h1" 
                         className="w-[20%] text-center capitalize leading-[59px] !text-block-900 md:w-full">
@@ -19,6 +19,7 @@ export default function Footer({ ...props}) {
                             </>
                         </Heading>
                         <div className="flex w-[42%] flex-col gap-10 self-center md:w-full">
+                        {/* <div className="flex flex-1 items-center justify-between gap-5 sm:self-stretch"> */}
                            <div className="flex w-[76%] flex-col ap-4 md:w-full">
                             <div className="flex items-center gap-4">
                                 <Img src="images/"
@@ -58,7 +59,7 @@ export default function Footer({ ...props}) {
                     </div>
                     <div className="flex w-[92%] flex-col gap-6 self-end md:w-fall">
                         <div className="h-px bg-blue-a100_33" />
-                        <div className="flex justify-between gap-5 md:flex-col">
+                        <div className="flex justify-between gap-40 md:flex-col">
                             <ul className="flex flex-wrap">
                                 <li>
                                     <a href="#">
