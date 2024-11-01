@@ -4,10 +4,28 @@ from django.conf import settings
 # Create your models here.
 
 class User(AbstractUser):
-    (
+    USER_ROLES = (
         ('tenant', 'Tenant'),
         ('landlord', 'Landlord'),
         ('agent', 'Agent'),
+    )
+    profile_info = models.JSONField(null=True, blank=True)
+    role = models.CharField(max_length=10, choices=USER_ROLES)
+
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='cohouse_users',
+        blank=True,
+        help_text='The groups this user belongs to, A user will get all permissions granted to each of their groups',
+        verbose_name='groups',
+    )
+
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='cohouse_users',
+        blank=True,
+        help_text='Specific permissions for this user. A user will get all permissions granted to each of their groups.',
+        verbose_name='user permissions',
     )
 
 class Property(models.Model):
