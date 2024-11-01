@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
 from .models import User, Property, TenancyAgreement, Roommate, Message, Document, AgentListing
 from .serializers import (
     UserSerializer,
@@ -14,7 +14,8 @@ from .serializers import (
 
 # Create your views here.
 
-class UserListCreateView(generics.ListCreateAPIView):
+# class UserListCreateView(generics.ListCreateAPIView):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny] #allow any user to create accounts
@@ -90,4 +91,3 @@ class AgentListingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = AgentListing.objects.all()
     serializer_class = AgentListingSerializer
     permission_classes = [permissions.IsAuthenticated]
-    
