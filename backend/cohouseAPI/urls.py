@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter, SimpleRouter
 from . import views
+from rest_framework.authtoken import views as authtoken_views
+
 
 router = DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -13,4 +15,5 @@ router.register(r'agent-listings', views.AgentListingListCreateView)
 
 urlpatterns = [
     path('', include(router.urls)),
+    # path('api-token-auth/', authtoken_views.obtain_auth_token),
 ]

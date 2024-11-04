@@ -1,2 +1,8 @@
-.venv
+*.log
+*.pot
+*.pyc
+local_settings.py
 db.sqlite3
+media
+backend/__pycache__
+.venv

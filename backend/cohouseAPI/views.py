@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from rest_framework import generics, permissions, viewsets
+from rest_framework import generics, permissions, viewsets, status
 from .models import User, Property, TenancyAgreement, Roommate, Message, Document, AgentListing
 from .serializers import (
     UserSerializer,
@@ -27,21 +27,28 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly] #only authenticated users can view, update, or delete their accounts
 
 
-class PropertyListCreateView(generics.ListCreateAPIView):
+class PropertyListCreateView(viewsets.ModelViewSet):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
     permission_classes = [permissions.IsAuthenticated] #only authenticated users can create properties
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user) #set the owner of the property to the authenticated user
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user) #set the owner of the property to the authenticated user
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
+        serializer.validated_data['owner'] = request.user
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class TenancyAgreementListCreateView(generics.ListCreateAPIView):
+class TenancyAgreementListCreateView(viewsets.ModelViewSet):
     queryset = TenancyAgreement.objects.all()
     serializer_class = TenancyAgreementSerializer
     permission_classes = [permissions.IsAuthenticated] #only authenticated users can create tenancy agreements
@@ -52,7 +59,7 @@ class TenancyAgreementDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TenancyAgreementSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class RoommateListCreateView(generics.ListCreateAPIView):
+class RoommateListCreateView(viewsets.ModelViewSet):
     queryset = Roommate.objects.all()
     serializer_class = RoommateSerializer
     permission_classes = [permissions.IsAuthenticated] #only authenticated users can create roommates
@@ -62,7 +69,7 @@ class RoommateDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RoommateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class MessageListCreateView(generics.ListCreateAPIView):
+class MessageListCreateView(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated] #only authenticated users can create messages
@@ -72,7 +79,7 @@ class MessageDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class DocumentListCreateView(generics.ListCreateAPIView):
+class DocumentListCreateView(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
     permission_classes = [permissions.IsAuthenticated] #only authenticated users can create documents
@@ -82,7 +89,7 @@ class DocumentDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DocumentSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class AgentListingListCreateView(generics.ListCreateAPIView):
+class AgentListingListCreateView(viewsets.ModelViewSet):
     queryset = AgentListing.objects.all()
     serializer_class = AgentListingSerializer
     permission_classes = [permissions.IsAuthenticated] #only authenticated users can create agent listings

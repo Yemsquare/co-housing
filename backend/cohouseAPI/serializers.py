@@ -5,7 +5,7 @@ from .models import User, Property, TenancyAgreement, Roommate, Message, Documen
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'profile_info', 'role']
+        fields = ['id', 'username', 'password', 'profile_info', 'role', 'first_name', 'last_name', 'email', 'date_joined','last_login']
         extra_kwargs = {'password': {'write_only': True, 'required': True}} #hide password in the response
 
     def create(self, validated_data):
@@ -14,6 +14,12 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save() #hash the password
         return user
+    
+    # update the password with harsh 
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data.get('password'))
+        instance.save()
+        return instance
 
 
 class PropertySerializer(serializers.ModelSerializer):
