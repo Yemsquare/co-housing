@@ -35,6 +35,13 @@ class PropertyListCreateView(viewsets.ModelViewSet):
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user) #set the owner of the property to the authenticated user
+    def get_permissions(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            permissions_classes = [permissions.AllowAny]  #any user can view the properties
+        else:
+            permissions_classes = [permissions.IsAuthenticated] #other action requires permissions
+        return [permission() for permission in permissions_classes]
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
