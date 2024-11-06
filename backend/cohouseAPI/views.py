@@ -11,6 +11,7 @@ from .serializers import (
     DocumentSerializer,
     AgentListingSerializer,
 )
+from .permissions import IsAgent, IsLandlord, IsLandlordOrAgent, IsTenant 
 
 # Create your views here.
 
@@ -30,7 +31,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 class PropertyListCreateView(viewsets.ModelViewSet):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
-    permission_classes = [permissions.IsAuthenticated] #only authenticated users can create properties
+    permission_classes = [permissions.IsAuthenticated, IsLandlordOrAgent] #only authenticated users can create properties
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user) #set the owner of the property to the authenticated user
