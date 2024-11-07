@@ -21,11 +21,18 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
+# owner = serializers.PrimaryKeyRelatedField(queryset=User.objects)
 class PropertySerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role__in=['landlord','agent']))
     class Meta:
         model = Property
         fields = '__all__'
+        read_only_fields = ['id']
+
+    def validate_pice(self, value):
+        if value < 0:
+            raise serializers.ValidationError("Price should be greater than zero.")
+        return value
 
 class TenancyAgreementSerializer(serializers.ModelSerializer):
     class Meta:

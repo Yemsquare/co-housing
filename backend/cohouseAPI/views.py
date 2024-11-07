@@ -46,7 +46,27 @@ class PropertyListCreateView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        serializer.validated_data['owner'] = request.user
+        if request.user.role.lower() not in ('landlord','agent'):
+            owner_id = request.data.get('owner')
+            if not owner_id:
+                return Response({"error":"Owner ID is required for non-landlord/agents users."},
+                                status=status.HTTP_400_BAD_REQUEST)
+            try:
+                serializer.validated_data['owner'] = User.objects.get(id=owner_id, role__in=['landlord','agent'])
+            except User.DoesNotExist:
+                return Response({"error":"User does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer.validated_data['owner'] = request.user
+
+        # if request.user.role.lower() not in ('landlord', 'agent'):
+        #     serializer.validated_data['owner_id'] = request.data.get('owner')
+        #     data = request.data.get('owner')
+        #     # print(data)
+        # else:
+        #     serializer.validated_data['owner'] = request.user 
+        # self.perform_create(serializer)
+
+        # # serializer.validated_data['owner'] = request.user
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

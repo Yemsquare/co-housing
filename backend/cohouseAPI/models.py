@@ -14,7 +14,7 @@ class User(AbstractUser):
 
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='cohouse_users',
+        related_name='cohouseAPI_user',
         blank=True,
         help_text='The groups this user belongs to, A user will get all permissions granted to each of their groups',
         verbose_name='groups',
@@ -22,7 +22,7 @@ class User(AbstractUser):
 
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='cohouse_users',
+        related_name='cohouseAPI_user',
         blank=True,
         help_text='Specific permissions for this user. A user will get all permissions granted to each of their groups.',
         verbose_name='user permissions',
@@ -34,8 +34,7 @@ class Property(models.Model):
     location = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     availability = models.BooleanField(default=True)
-
-    is_loisted_by_agent = models.BooleanField(default=False)
+    is_listed_by_agent = models.BooleanField(default=False)
 
 class TenancyAgreement(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
@@ -54,13 +53,11 @@ class Roommate(models.Model):
 class Message(models.Model):
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_messages')
     reciever = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='recieved_messages')
-
     message_content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class Document(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='document')
-
     document_name = models.CharField(max_length=255)
     document_content = models.FileField(upload_to='documents/')
     encrypted = models.BooleanField(default=False)
