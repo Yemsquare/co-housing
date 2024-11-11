@@ -5,7 +5,7 @@ from .models import User, Property, TenancyAgreement, Roommate, Message, Documen
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'profile_info', 'role', 'first_name', 'last_name', 'email', 'date_joined','last_login']
+        fields = ['id', 'username', 'role']
         extra_kwargs = {'password': {'write_only': True, 'required': True}} #hide password in the response
 
     def create(self, validated_data):
@@ -23,11 +23,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 # owner = serializers.PrimaryKeyRelatedField(queryset=User.objects)
 class PropertySerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role__in=['landlord','agent']))
+    owner = UserSerializer()
+    # owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role__in=['landlord','agent','admin']))
     class Meta:
         model = Property
         fields = '__all__'
-        read_only_fields = ['id']
+        # read_only_fields = ['id']
 
     def validate_pice(self, value):
         if value < 0:

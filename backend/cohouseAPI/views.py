@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from rest_framework.response import Response
 from rest_framework import generics, permissions, viewsets, status
 from .models import User, Property, TenancyAgreement, Roommate, Message, Document, AgentListing
 from .serializers import (
@@ -46,7 +46,7 @@ class PropertyListCreateView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if request.user.role.lower() not in ('landlord','agent'):
+        if request.user.role.lower() not in ('landlord','agent','admin'):
             owner_id = request.data.get('owner')
             if not owner_id:
                 return Response({"error":"Owner ID is required for non-landlord/agents users."},
@@ -73,7 +73,6 @@ class PropertyListCreateView(viewsets.ModelViewSet):
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
-
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class TenancyAgreementListCreateView(viewsets.ModelViewSet):

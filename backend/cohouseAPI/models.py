@@ -29,7 +29,7 @@ class User(AbstractUser):
     )
 
 class Property(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'role__in': ('landlord','agent')})
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'role__in': ('landlord','agent','admin')})
     property_details = models.JSONField(null=True, blank=True)
     location = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -43,7 +43,6 @@ class TenancyAgreement(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
-
 
 class Roommate(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
