@@ -70,6 +70,21 @@ class PropertyListCreateView(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        if partial:
+            for field in serializer.validated_data:
+                setattr(instance, field, serializer.validated_data[field])
+        else:
+            serializer.update(instance, serializer.validated_data)
+
+        instance.save()
+        return Response(serializer.data)
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer

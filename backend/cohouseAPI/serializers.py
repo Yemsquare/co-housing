@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 # owner = serializers.PrimaryKeyRelatedField(queryset=User.objects)
 class PropertySerializer(serializers.ModelSerializer):
-    owner = UserSerializer()
+    owner = UserSerializer(read_only=True)
     # owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role__in=['landlord','agent','admin']))
     class Meta:
         model = Property
