@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework import generics, permissions, viewsets, status
+from rest_framework import generics, permissions, viewsets, status, filters
 from .models import User, Property, TenancyAgreement, Roommate, Message, Document, AgentListing
 from .serializers import (
     UserSerializer,
@@ -33,6 +33,10 @@ class PropertyListCreateView(viewsets.ModelViewSet):
     serializer_class = PropertySerializer
     permission_classes = [permissions.IsAuthenticated, IsLandlordOrAgent] #only authenticated users can create properties
 
+    # flitering and sorting properties
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['location', 'property_details__city']
+    ordering_fields = ['price', 'property_details__bedrooms', 'property_details__bathrooms']
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user) #set the owner of the property to the authenticated user
     def get_permissions(self):
@@ -139,4 +143,6 @@ class AgentListingListCreateView(viewsets.ModelViewSet):
 class AgentListingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = AgentListing.objects.all()
     serializer_class = AgentListingSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsAgent]
+
+ 

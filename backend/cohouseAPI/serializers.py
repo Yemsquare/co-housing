@@ -23,8 +23,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 # owner = serializers.PrimaryKeyRelatedField(queryset=User.objects)
 class PropertySerializer(serializers.ModelSerializer):
-    owner = UserSerializer(read_only=True)
-    # owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role__in=['landlord','agent','admin']))
+    # owner = UserSerializer(read_only=True)
+    # owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role__in=['landlord','agent']))
     class Meta:
         model = Property
         fields = '__all__'
@@ -56,7 +57,30 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AgentListingSerializer(serializers.ModelSerializer):
+    # agent = serializers.PrimaryKeyRelatedField(queryset=User.objects.filter(role__in=['agent']))
+    # property = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
+    agent = UserSerializer()
+    property = PropertySerializer()
     class Meta:
         model = AgentListing
         fields = '__all__'
+
+    def create(self, validated_data):
+        agent_data = validated_data.pop('agent')
+        property_data = validated_data.pop('property')
+
+        # ensure that owner_id is present in property_id 
+        owner = property_data.get('owner')
+        if not owner:
+            raise serializers.ValidationError("Property owner is required.")
+        owner_id = owner.id
+        # assuming you want to create new User and properties instance 
+        agent, _ = User.objects.get_or_create(**agent_data)
+        property = Property.objects.create(owner_id=owner_id, **property_data)
+
+        agent_listing = AgentListing.objects.create(agent=agent, property=property, **validated_data)
+        return agent_listing
+    
+    # def update():
+    #     pass
 

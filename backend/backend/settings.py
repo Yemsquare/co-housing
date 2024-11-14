@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'cohouseAPI',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'django_filters',
 
 ]
 
