@@ -5,11 +5,15 @@ from .models import User, Property, TenancyAgreement, Roommate, Message, Documen
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'role']
+        fields = ['id', 'username', 'role', 'profile_info']
         extra_kwargs = {'password': {'write_only': True, 'required': True}} #hide password in the response
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
+        try:
+            password = validated_data.pop('password')
+        except KeyError:
+            password = None
+
         user = User(**validated_data)
         user.set_password(password)
         user.save() #hash the password
@@ -18,6 +22,9 @@ class UserSerializer(serializers.ModelSerializer):
     # update the password with harsh 
     def update(self, instance, validated_data):
         instance.set_password(validated_data.get('password'))
+        profile_info = validated_data.get('profile_info')
+        if profile_info:
+            instance.profile_info = profile_info
         instance.save()
         return instance
 

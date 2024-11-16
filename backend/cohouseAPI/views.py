@@ -20,7 +20,40 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny] #allow any user to create accounts
+    
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['username', 'email','role']
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        password  = request.data.get('password')
+        if password:
+            instance.set_password(password)
+            request.data['password'] = instance.password
+
+        partial = kwargs.pop('partial', False)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_update(serializer)
+
+        response = super().update(request, *args, **kwargs)
+
+        return Response(serializer.data)
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        group_name = self.request.query_params.get('group_name')
+
+        if group_name:
+            queryset = queryset.filter(groups__name=group_name)
+
+        # return all users 
+        else:
+            queryset = User.objects.all()
+        return queryset 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
