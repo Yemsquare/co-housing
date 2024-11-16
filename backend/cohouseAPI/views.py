@@ -22,7 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny] #allow any user to create accounts
     
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['username', 'email','role']
+    search_fields = ['username', 'email','role','profile_info__lifestyle', 'profile_info__religion']
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()

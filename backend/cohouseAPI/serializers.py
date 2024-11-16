@@ -8,16 +8,31 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'role', 'profile_info']
         extra_kwargs = {'password': {'write_only': True, 'required': True}} #hide password in the response
 
+# checking username if exist and suggesting username 
+    def validate_username(self, value):
+        original_value = value
+        if User.objects.filter(username__iexact=value).exists():
+            # trying pending number to the username to generate a new username 
+            for i in range(1, 100):
+                new_value = f"{original_value}{i}"
+                if not User.objects.filter(username__iexact=new_value).exists():
+                    value = new_value
+                    break
+            else:
+                raise serializers.ValidationError(f"Username '{original_value}' is taken. Try '{new_value}' instead.")
+        return value
     def create(self, validated_data):
-        try:
-            password = validated_data.pop('password')
-        except KeyError:
-            password = None
+             
+       try:
+           password = validated_data.pop('password')
+       except KeyError:
+           None
 
-        user = User(**validated_data)
-        user.set_password(password)
-        user.save() #hash the password
-        return user
+       user = User(**validated_data)
+       if password:
+            user.set_password(password)
+       user.save()        
+       return user
     
     # update the password with harsh 
     def update(self, instance, validated_data):
