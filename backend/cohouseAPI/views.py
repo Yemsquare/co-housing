@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework import generics, permissions, viewsets, status, filters
+from rest_framework import generics, permissions, viewsets, status, filters, pagination
 from .models import User, Property, TenancyAgreement, Roommate, Message, Document, AgentListing
 from .serializers import (
     UserSerializer,
@@ -12,7 +12,9 @@ from .serializers import (
     AgentListingSerializer,
 )
 from .permissions import IsAgent, IsLandlord, IsLandlordOrAgent, IsTenant 
+import logging
 
+logger = logging.getLogger(__name__)
 # Create your views here.
 
 # class UserListCreateView(generics.ListCreateAPIView):
@@ -21,26 +23,28 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny] #allow any user to create accounts
     
+    pagination_class = pagination.PageNumberPagination
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['username', 'email','role','profile_info__lifestyle', 'profile_info__religion']
+    ordering_fields = ['role']
 
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
 
-        password  = request.data.get('password')
-        if password:
-            instance.set_password(password)
-            request.data['password'] = instance.password
+    #     password  = request.data.get('password')
+    #     if password:
+    #         instance.set_password(password)
+    #         request.data['password'] = instance.password
 
-        partial = kwargs.pop('partial', False)
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
+    #     partial = kwargs.pop('partial', False)
+    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    #     serializer.is_valid(raise_exception=True)
 
-        self.perform_update(serializer)
+    #     self.perform_update(serializer)
 
-        response = super().update(request, *args, **kwargs)
+    #     response = super().update(request, *args, **kwargs)
 
-        return Response(serializer.data)
+    #     return Response(serializer.data)
     
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -53,7 +57,7 @@ class UserViewSet(viewsets.ModelViewSet):
         # return all users 
         else:
             queryset = User.objects.all()
-        return queryset 
+        return queryset.order_by('id')
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
@@ -127,11 +131,44 @@ class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PropertySerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+# tenant acquire/rent a propery 
 class TenancyAgreementListCreateView(viewsets.ModelViewSet):
     queryset = TenancyAgreement.objects.all()
     serializer_class = TenancyAgreementSerializer
-    permission_classes = [permissions.IsAuthenticated] #only authenticated users can create tenancy agreements
+    permission_classes = [permissions.IsAuthenticated, IsTenant] #only authenticated users can create tenancy agreements
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        logger.debug(f"Incoming data: {request.data}")
+        # getting property to be rented 
+        property_id = serializer.validated_data.get('property').id
+        try:
+            property = Property.objects.get(pk=property_id)
+        except Property.DoesNotExist:
+            return Response({"error":"Property does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # getting tenant
+        serializer.validated_data['tenant'] = request.user
+
+        # other logics goes here, payment and co  
+
+        print("Serializer :", serializer.validated_data)
+        print("property_id :", property_id)
+        print("tenant :", request.user)
+        print("property :", property)
+        print("landlord :", serializer.validated_data.get('landlord'))
+
+        self.perform_create(serializer)
+
+        # print(f"property id :" , property_id, f'tenant :', user )
+
+        property.availability = False
+        property.save()
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class TenancyAgreementDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TenancyAgreement.objects.all()

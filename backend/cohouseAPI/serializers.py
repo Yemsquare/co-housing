@@ -5,7 +5,7 @@ from .models import User, Property, TenancyAgreement, Roommate, Message, Documen
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'role', 'profile_info']
+        fields = ['id', 'username','password', 'role', 'profile_info']
         extra_kwargs = {'password': {'write_only': True, 'required': True}} #hide password in the response
 
 # checking username if exist and suggesting username 

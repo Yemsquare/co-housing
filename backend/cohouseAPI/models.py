@@ -35,11 +35,12 @@ class Property(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     availability = models.BooleanField(default=True)
     is_listed_by_agent = models.BooleanField(default=False)
+    room = models.JSONField(default=list)
 
 class TenancyAgreement(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'role':'tenant'} )
-    landlord = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='landlord_agreements', limit_choices_to={'role':'landlord'})
+    property = models.ForeignKey('Property', on_delete=models.CASCADE)  # Assuming 'Property' is in the same app
+    tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'role': 'tenant'})
+    landlord = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='landlord_agreements', limit_choices_to={'role': 'landlord'})
     start_date = models.DateField()
     end_date = models.DateField()
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
